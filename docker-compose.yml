@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgres-ips:
+    image: postgres
+    container_name: postgres-ips
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+
+  my-node-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ip-addresses
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres-ips
+    networks:
+      - my-network
+
+networks:
+  my-network:
